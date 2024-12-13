@@ -7,7 +7,7 @@ const MainLayOut = () => {
     <div>
       {/* Navbar */}
       <Navbar></Navbar>
-      <main>
+      <main className="min-h-screen">
         <Outlet></Outlet>
       </main>
       {/* footer */}
