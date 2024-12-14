@@ -1,7 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+
 import useAuth from "../Hooks/useAuth";
 
 const ApplyJob = () => {
+  const navigate = useNavigate();
   // getting the application id
   const id = useParams();
   const { user } = useAuth();
@@ -35,9 +38,22 @@ const ApplyJob = () => {
       .then((data) => {
         // console.log(data);
         if (data.insertedId) {
-          alert("Data submitted sucessfully ");
+          Swal.fire({
+            title: "Application successful",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff url(/images/trees.png)",
+            backdrop: `
+              rgba(0,0,123,0.4)
+              url("/images/nyan-cat.gif")
+              left top
+              no-repeat
+            `,
+          });
         }
         form.reset();
+        navigate("/applications");
       });
   };
 
