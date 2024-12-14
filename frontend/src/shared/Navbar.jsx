@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-
+import AuthContext from "../Context/AuthContext";
+import logo from "../assets/logo.png";
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
   // State to track whether the mobile menu is open
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -17,11 +19,14 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-base-200 shadow-lg  lg:py-6 lg:px-4 z-50">
+    <header className="bg-base-200 shadow-lg   z-50">
       {/* Main navigation bar */}
       <nav className="flex items-center justify-between px-6 py-4">
         {/* Logo / Name on the left */}
-        <div className="text-2xl font-bold">Job Hunter</div>
+        <div className="text-2xl font-bold flex items-center">
+          <img src={logo} className="h-10 w-10" alt="" />
+          Job Hunter
+        </div>
 
         {/* Links for desktop view (hidden on small screens) */}
         <div className="hidden md:flex gap-6">
@@ -69,18 +74,31 @@ const Navbar = () => {
 
         {/* Login and Register buttons for desktop view */}
         <div className="hidden md:flex gap-4">
-          <NavLink
-            to="/login"
-            className="px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/register"
-            className="px-4 py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800"
-          >
-            Register
-          </NavLink>
+          {user ? (
+            <>
+              <button
+                onClick={logout}
+                className="px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className="px-4 py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800"
+              >
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
 
         {/* Hamburger menu button for mobile view */}
@@ -152,16 +170,29 @@ const Navbar = () => {
             </li>
             {/* Login and Register buttons */}
             <li className=" w-full ">
-              <NavLink to="/login">
-                <button className="btn bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800 w-full">
-                  Login
-                </button>
-              </NavLink>
-              <NavLink to="/register">
-                <button className="btn bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 w-full">
-                  Register
-                </button>
-              </NavLink>
+              {user ? (
+                <>
+                  <button
+                    onClick={logout}
+                    className="btn bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800 w-full"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink to="/login">
+                    <button className="btn bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800 w-full">
+                      Login
+                    </button>
+                  </NavLink>
+                  <NavLink to="/register">
+                    <button className="btn bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 w-full">
+                      Register
+                    </button>
+                  </NavLink>
+                </>
+              )}
             </li>
           </ul>
         </div>
