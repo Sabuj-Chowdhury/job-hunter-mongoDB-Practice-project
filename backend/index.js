@@ -24,9 +24,19 @@ async function run() {
     // Get the database and collection on which to run the operation
     const jobsCollection = client.db("jobhunterDB").collection("jobs");
 
-    // creating API for all job
+    // API to get all jobs or limit the number of jobs
     app.get("/jobs", async (req, res) => {
-      const result = await jobsCollection.find().toArray();
+      const limit = parseInt(req.query.limit); // Extract limit from query params
+      let result;
+
+      if (limit) {
+        // If limit is provided, fetch limited number of jobs
+        result = await jobsCollection.find().limit(limit).toArray();
+      } else {
+        // Otherwise, fetch all jobs
+        result = await jobsCollection.find().toArray();
+      }
+
       res.send(result);
     });
 
