@@ -59,9 +59,18 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
+
   const authInfo = {
     user,
     loading,
+
     createGoogleLogIn,
     createUser,
     logout,

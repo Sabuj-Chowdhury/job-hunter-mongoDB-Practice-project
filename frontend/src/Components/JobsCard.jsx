@@ -11,7 +11,7 @@ const JobsCard = () => {
         setJobs(data);
       });
   }, []);
-  console.log(jobs);
+  //   console.log(jobs);
 
   return (
     <div>

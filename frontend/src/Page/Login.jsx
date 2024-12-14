@@ -1,12 +1,19 @@
 import Lottie from "react-lottie";
 import loginLottieData from "../assets/lottieFiles/loginLottie.json";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 
 const Login = () => {
   const { emailPasswordLogin, createGoogleLogIn } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  // redirect to last  location
+  const previousLocation = location.state || "/";
+
   // this is required for <Lottie>
   const defaultOptions = {
     loop: true,
@@ -28,10 +35,19 @@ const Login = () => {
     emailPasswordLogin(email, password)
       .then((result) => {
         // console.log(result.user);
+        navigate(previousLocation);
       })
       .catch((error) => {
         // console.log(error.message);
       });
+  };
+
+  const handleGoogleLogin = () => {
+    createGoogleLogIn()
+      .then(() => {
+        navigate(previousLocation);
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -87,8 +103,9 @@ const Login = () => {
           </form>
           <div className="text-center">
             <p className="text-sm text-gray-600 mb-2">Or sign in with</p>
+
             <button
-              onClick={createGoogleLogIn}
+              onClick={handleGoogleLogin}
               className="flex items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
             >
               <FaGoogle className="mr-2" size={20} /> Sign in with Google

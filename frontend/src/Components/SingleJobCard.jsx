@@ -1,7 +1,7 @@
 import { TfiLocationPin } from "react-icons/tfi";
 import { Link } from "react-router-dom";
 const SingleJobCard = ({ job }) => {
-  console.log(job);
+  //   console.log(job);
 
   const {
     _id,
