@@ -58,7 +58,7 @@ const MyApplications = () => {
               >
                 <td className="px-6 py-4">
                   <img
-                    src={job.company_logo || "https://via.placeholder.com/50"}
+                    src={job.company_logo}
                     alt={job.company}
                     className="w-12 h-12 rounded-full object-cover"
                   />

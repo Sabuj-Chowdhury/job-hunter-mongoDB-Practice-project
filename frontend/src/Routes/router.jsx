@@ -35,7 +35,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/job-details/${params.id}`),
+          fetch(`${import.meta.env.VITE_url}/job-details/${params.id}`),
       },
       {
         path: "/jobs",
