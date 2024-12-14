@@ -166,8 +166,6 @@ const Navbar = () => {
           </ul>
         </div>
       )}
-
-      {/* Transparent overlay to close menu when clicking outside */}
     </header>
   );
 };

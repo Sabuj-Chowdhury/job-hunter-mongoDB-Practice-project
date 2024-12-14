@@ -1,8 +1,13 @@
 import Lottie from "react-lottie";
 import registrationLottieData from "../assets/lottieFiles/registrationLottie.json";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../Context/AuthContext";
 
 const Registration = () => {
+  const { createUser, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  // this function is required to use <Lottie>
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -10,6 +15,43 @@ const Registration = () => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  // handle registration from data
+  const handleFormData = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    // const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+
+    // Basic validation for password
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    if (!passwordValidation.test(password)) {
+      alert(
+        "Password must be at least 6 characters long, include at least one uppercase letter, one lowercase letter, and one number."
+      );
+      return;
+    }
+
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        alert("Registration successful!");
+        form.reset();
+        logout();
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error.message);
+        alert("Registration failed. Please check your details and try again.");
+      });
   };
 
   return (
@@ -23,7 +65,7 @@ const Registration = () => {
         {/* Registration Form */}
         <div className="w-full p-8 md:w-1/2">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Register</h2>
-          <form>
+          <form onSubmit={handleFormData}>
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -34,6 +76,7 @@ const Registration = () => {
               <input
                 type="text"
                 id="name"
+                name="name"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your name"
               />
@@ -48,6 +91,7 @@ const Registration = () => {
               <input
                 type="email"
                 id="email"
+                name="email"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
               />
@@ -62,6 +106,7 @@ const Registration = () => {
               <input
                 type="password"
                 id="password"
+                name="password"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your password"
               />
@@ -76,6 +121,7 @@ const Registration = () => {
               <input
                 type="password"
                 id="confirmPassword"
+                name="confirmPassword"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Confirm your password"
               />
