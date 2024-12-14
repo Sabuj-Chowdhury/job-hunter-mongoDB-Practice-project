@@ -23,6 +23,12 @@ async function run() {
   try {
     // Get the database and collection on which to run the operation
     const jobsCollection = client.db("jobhunterDB").collection("jobs");
+    // application collection
+    const applicantCollection = client
+      .db("jobhunterDB")
+      .collection("applications");
+
+    // GET
 
     // API to get all jobs or limit the number of jobs
     app.get("/jobs", async (req, res) => {
@@ -45,6 +51,15 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await jobsCollection.findOne(query);
+      res.send(result);
+    });
+
+    // POST
+
+    // create API for posting/inserting application data in DB
+    app.post("/applications", async (req, res) => {
+      const applications = req.body;
+      const result = await applicantCollection.insertOne(applications);
       res.send(result);
     });
 

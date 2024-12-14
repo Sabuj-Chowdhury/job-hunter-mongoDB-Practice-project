@@ -24,8 +24,21 @@ const ApplyJob = () => {
       coverLetter,
     };
     console.log(ApplicantData);
-
-    form.reset();
+    fetch(`${import.meta.env.VITE_url}/applications`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(ApplicantData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        if (data.insertedId) {
+          alert("Data submitted sucessfully ");
+        }
+        form.reset();
+      });
   };
 
   return (
