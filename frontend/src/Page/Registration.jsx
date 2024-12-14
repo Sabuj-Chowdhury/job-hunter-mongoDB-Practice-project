@@ -77,6 +77,7 @@ const Registration = () => {
                 type="text"
                 id="name"
                 name="name"
+                required
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your name"
               />
@@ -92,6 +93,7 @@ const Registration = () => {
                 type="email"
                 id="email"
                 name="email"
+                required
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
               />
@@ -106,6 +108,7 @@ const Registration = () => {
               <input
                 type="password"
                 id="password"
+                required
                 name="password"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your password"
@@ -122,6 +125,7 @@ const Registration = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
+                required
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Confirm your password"
               />
