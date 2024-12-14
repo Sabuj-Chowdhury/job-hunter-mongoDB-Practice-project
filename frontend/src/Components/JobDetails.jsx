@@ -1,9 +1,10 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const JobDetails = () => {
   const jobData = useLoaderData();
   const {
+    _id,
     title,
     location,
     jobType,
@@ -141,9 +142,11 @@ const JobDetails = () => {
         transition={{ duration: 1.2, delay: 1.3, ease: "easeOut" }}
         className="flex justify-center"
       >
-        <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition">
-          Apply Now
-        </button>
+        <Link to={`/apply-job/${_id}`}>
+          <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition">
+            Apply Now
+          </button>
+        </Link>
       </motion.div>
     </motion.div>
   );
