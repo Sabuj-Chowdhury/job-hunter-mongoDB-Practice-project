@@ -46,6 +46,16 @@ async function run() {
       res.send(result);
     });
 
+    // API for the jobs which is posted by that user if that user has email logged in with
+    app.get("/my-posted-jobs", async (req, res) => {
+      const email = req.query.email;
+      const query = {
+        hr_email: email,
+      };
+      const result = await jobsCollection.find(query).toArray();
+      res.send(result);
+    });
+
     // create API for specific job by id
     app.get("/job-details/:id", async (req, res) => {
       const id = req.params.id;
@@ -83,6 +93,26 @@ async function run() {
     app.post("/applications", async (req, res) => {
       const applications = req.body;
       const result = await applicantCollection.insertOne(applications);
+
+      // not the best way (Optional)
+      const id = applications.job_id;
+      const query = { _id: new ObjectId(id) };
+      const job = await jobsCollection.findOne(query);
+
+      let newCount = 0;
+      if (job.applicationCount) {
+        newCount = job.applicationCount + 1;
+      } else {
+        newCount = 1;
+      }
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          applicationCount: newCount,
+        },
+      };
+      const updateResult = await jobsCollection.updateOne(filter, updatedDoc);
+
       res.send(result);
     });
 
