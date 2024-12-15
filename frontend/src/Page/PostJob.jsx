@@ -1,8 +1,11 @@
 import Swal from "sweetalert2";
 import useAuth from "../Hooks/useAuth";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 const PostJob = () => {
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const formRef = useRef(); // Create a ref for the form
 
@@ -50,6 +53,9 @@ const PostJob = () => {
           });
           // Reset the form
           formRef.current.reset();
+
+          // navigate to "/myJobs"
+          navigate("/myJobs");
         }
       });
   };

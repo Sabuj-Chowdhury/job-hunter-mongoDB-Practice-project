@@ -70,6 +70,17 @@ const Navbar = () => {
           >
             My JobPost
           </NavLink>
+
+          <NavLink
+            to="/myJobs"
+            className={({ isActive }) =>
+              `hover:text-primary ${
+                isActive ? "text-primary font-bold underline" : ""
+              }`
+            }
+          >
+            My JobPost List
+          </NavLink>
         </div>
 
         {/* Login and Register buttons for desktop view */}
@@ -115,7 +126,7 @@ const Navbar = () => {
       {/* Mobile menu dropdown (only visible when menuOpen is true) */}
       {menuOpen && (
         <div
-          className="fixed top-24 right-4 bg-base-100 shadow-lg rounded-lg w-64 transition-transform transform animate-slide-down"
+          className="fixed top-24 z-50 right-4 bg-base-100 shadow-lg rounded-lg w-64 transition-transform transform animate-slide-down"
           onClick={closeMenu} // Close the menu when clicked
         >
           <ul className="flex flex-col items-start py-4 px-6 gap-4">
@@ -166,6 +177,18 @@ const Navbar = () => {
                 }
               >
                 My JobPost
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/myJobs"
+                className={({ isActive }) =>
+                  `block hover:text-primary ${
+                    isActive ? "text-primary font-semibold" : ""
+                  }`
+                }
+              >
+                My JobPost List
               </NavLink>
             </li>
             {/* Login and Register buttons */}
