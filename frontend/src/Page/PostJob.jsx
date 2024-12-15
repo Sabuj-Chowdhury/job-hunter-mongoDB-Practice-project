@@ -1,12 +1,63 @@
+import Swal from "sweetalert2";
+import useAuth from "../Hooks/useAuth";
+import { useRef } from "react";
 const PostJob = () => {
+  const { user } = useAuth();
+
+  const formRef = useRef(); // Create a ref for the form
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // learning new way to get data from the form
+    const formData = new FormData(e.target);
+    const initialData = Object.fromEntries(formData.entries());
+    // console.log(initialData);
+    const { min, max, currency, ...newJob } = initialData;
+    // console.log(newJob);
+    newJob.salaryRange = { min, max, currency };
+    // console.log(newJob);
+    newJob.requirements = newJob.requirements.split(",");
+    // console.log(newJob);
+    newJob.responsibilities = newJob.responsibilities.split(",");
+    console.log(newJob);
+
+    fetch(`${import.meta.env.VITE_url}/post-jobs`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newJob),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Job Posted successfully.",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `,
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `,
+            },
+          });
+          // Reset the form
+          formRef.current.reset();
+        }
+      });
   };
 
   return (
     <div className="max-w-4xl mx-auto my-10 p-6 bg-white shadow-md rounded-lg">
       <h1 className="text-3xl font-bold text-center mb-8">Post a Job</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
         {/* Job Title */}
         <div>
           <label className="block text-sm font-medium">Job Title</label>
@@ -52,7 +103,7 @@ const PostJob = () => {
         <div>
           <label className="block text-sm font-medium">Employment Type</label>
           <select
-            name="employmentType"
+            name="contract"
             className="select select-bordered w-full"
             required
           >
@@ -69,7 +120,7 @@ const PostJob = () => {
         <div>
           <label className="block text-sm font-medium">Category</label>
           <select
-            name="employmentType"
+            name="category"
             className="select select-bordered w-full"
             required
           >
@@ -102,7 +153,7 @@ const PostJob = () => {
             <label className="block text-sm font-medium">Min Salary</label>
             <input
               type="number"
-              name="salaryMin"
+              name="min"
               placeholder="40000"
               className="input input-bordered w-full"
               required
@@ -112,7 +163,7 @@ const PostJob = () => {
             <label className="block text-sm font-medium">Max Salary</label>
             <input
               type="number"
-              name="salaryMax"
+              name="max"
               placeholder="100000"
               className="input input-bordered w-full"
               required
@@ -189,6 +240,7 @@ const PostJob = () => {
             <label className="block text-sm font-medium">HR Email</label>
             <input
               type="email"
+              defaultValue={user?.email}
               name="hr_email"
               placeholder="example:hr@techsolutions.com"
               className="input input-bordered w-full"

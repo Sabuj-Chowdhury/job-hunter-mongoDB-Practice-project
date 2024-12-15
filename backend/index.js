@@ -63,7 +63,7 @@ async function run() {
       const result = await applicantCollection.find(query).toArray();
       // not the best way to aggregate
       for (const application of result) {
-        console.log(application.job_id);
+        // console.log(application.job_id);
         const query1 = { _id: new ObjectId(application.job_id) };
         const job = await jobsCollection.findOne(query1);
         if (job) {
@@ -83,6 +83,13 @@ async function run() {
     app.post("/applications", async (req, res) => {
       const applications = req.body;
       const result = await applicantCollection.insertOne(applications);
+      res.send(result);
+    });
+
+    // create API for posting/inserting postJobs data in the DB
+    app.post("/post-jobs", async (req, res) => {
+      const newJobs = req.body;
+      const result = await jobsCollection.insertOne(newJobs);
       res.send(result);
     });
 
