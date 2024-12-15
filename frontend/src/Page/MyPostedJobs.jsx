@@ -118,8 +118,10 @@ const MyPostedJobs = () => {
                   className="border border-gray-200 px-4 py-2"
                   variants={cellAnimation}
                 >
-                  <Link className="btn btn-sm btn-primary">
-                    View Applications
+                  <Link>
+                    <button className="btn btn-sm btn-primary">
+                      View Applications
+                    </button>
                   </Link>
                 </motion.td>
                 <motion.td
