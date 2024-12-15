@@ -42,22 +42,45 @@ const PostJob = () => {
             <option value="" disabled>
               Select a job type
             </option>
-            <option value="Hybrid">Hybrid</option>
-            <option value="Remote">Remote</option>
-            <option value="On-site">On-site</option>
+            <option>Hybrid</option>
+            <option>Remote</option>
+            <option>On-site</option>
+          </select>
+        </div>
+
+        {/* Employment Type */}
+        <div>
+          <label className="block text-sm font-medium">Employment Type</label>
+          <select
+            name="employmentType"
+            className="select select-bordered w-full"
+            required
+          >
+            <option value="" disabled>
+              Select employment type
+            </option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Intern</option>
           </select>
         </div>
 
         {/* Category */}
         <div>
           <label className="block text-sm font-medium">Category</label>
-          <input
-            type="text"
-            name="category"
-            placeholder="example:Engineering"
-            className="input input-bordered w-full"
+          <select
+            name="employmentType"
+            className="select select-bordered w-full"
             required
-          />
+          >
+            <option value="" disabled>
+              Select Job Category
+            </option>
+            <option>Engineering</option>
+            <option>Marketing</option>
+            <option>Finance</option>
+            <option>Teaching</option>
+          </select>
         </div>
 
         {/* Application Deadline */}
@@ -102,8 +125,8 @@ const PostJob = () => {
               className="select select-bordered w-full"
               required
             >
-              <option value="bdt">BDT</option>
-              <option value="usd">USD</option>
+              <option>BDT</option>
+              <option>USD</option>
             </select>
           </div>
         </div>
