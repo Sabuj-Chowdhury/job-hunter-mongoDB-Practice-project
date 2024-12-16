@@ -3,6 +3,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,12 +22,19 @@ const client = new MongoClient(uri, {
 });
 async function run() {
   try {
-    // Get the database and collection on which to run the operation
+    // Get the database and collection on which to run the operation //DB
     const jobsCollection = client.db("jobhunterDB").collection("jobs");
     // application collection
     const applicantCollection = client
       .db("jobhunterDB")
       .collection("applications");
+
+    // jwt (json web token) related api
+    app.post("/jwt", async (req, res) => {
+      const user = req.body;
+      const token = jwt.sign(user, "secret", { expiresIn: "1h" });
+      res.send(token);
+    });
 
     // GET
 
