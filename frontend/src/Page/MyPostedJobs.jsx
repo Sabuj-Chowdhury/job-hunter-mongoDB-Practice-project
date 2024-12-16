@@ -118,7 +118,7 @@ const MyPostedJobs = () => {
                   className="border border-gray-200 px-4 py-2"
                   variants={cellAnimation}
                 >
-                  <Link>
+                  <Link to={`/total-applications/${job._id}`}>
                     <button className="btn btn-sm btn-primary">
                       View Applications
                     </button>

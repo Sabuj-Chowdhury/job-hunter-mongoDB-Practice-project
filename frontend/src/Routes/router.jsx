@@ -11,6 +11,7 @@ import ApplyJob from "../Page/ApplyJob";
 import MyApplications from "../Page/MyApplications";
 import PostJob from "../Page/PostJob";
 import MyPostedJobs from "../Page/MyPostedJobs";
+import TotalApplicant from "../Page/TotalApplicant";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyPostedJobs></MyPostedJobs>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/total-applications/:job_id",
+        element: (
+          <PrivateRoute>
+            <TotalApplicant></TotalApplicant>
           </PrivateRoute>
         ),
       },
