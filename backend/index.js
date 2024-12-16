@@ -34,7 +34,7 @@ async function run() {
       .db("jobhunterDB")
       .collection("applications");
 
-    // jwt (json web token) related api
+    // *************auth/jwt (json web token) related api**********
     app.post("/jwt", async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
@@ -46,7 +46,7 @@ async function run() {
         .send({ success: true });
     });
 
-    // GET
+    // *************GET**************
 
     // API to get all jobs or limit the number of jobs
     app.get("/jobs", async (req, res) => {
@@ -106,18 +106,19 @@ async function run() {
     });
 
     // Can't find the data of who applied for the job (ERROR)
+    // Fixed ,the issue was caused because in DB id was in object so it have to use by "job_id.id"
 
     // API for How many people applied for the job post that the (Logged in user created )
     app.get("/total-application/jobs/:job_id", async (req, res) => {
       const jobId = req.params.job_id;
-      console.log(jobId);
+      // console.log(jobId);
 
-      const query = { job_id: jobId };
+      const query = { "job_id.id": jobId };
       const result = await applicantCollection.find(query).toArray();
       res.send(result);
     });
 
-    // POST
+    // **********POST************
 
     // create API for posting/inserting application data in DB
     app.post("/applications", async (req, res) => {
