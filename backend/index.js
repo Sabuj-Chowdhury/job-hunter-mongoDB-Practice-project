@@ -64,7 +64,7 @@ async function run() {
       res.send(result);
     });
 
-    // API for total application data  for which that user which is logged in (by email)
+    // API for total job application data  for which that user which is logged in (by email)
     app.get("/total-application", async (req, res) => {
       const email = req.query.email;
       const query = {
@@ -84,6 +84,18 @@ async function run() {
         }
       }
 
+      res.send(result);
+    });
+
+    // Can't find the data of who applied for the job (ERROR)
+
+    // API for How many people applied for the job post that the (Logged in user created )
+    app.get("/total-application/jobs/:job_id", async (req, res) => {
+      const jobId = req.params.job_id;
+      console.log(jobId);
+
+      const query = { job_id: jobId };
+      const result = await applicantCollection.find(query).toArray();
       res.send(result);
     });
 
