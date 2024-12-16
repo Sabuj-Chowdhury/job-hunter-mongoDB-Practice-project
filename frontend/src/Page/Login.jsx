@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
+import axios from "axios";
 
 const Login = () => {
   const { emailPasswordLogin, createGoogleLogIn } = useContext(AuthContext);
@@ -34,7 +35,11 @@ const Login = () => {
     // console.log(email, password);
     emailPasswordLogin(email, password)
       .then((result) => {
-        // console.log(result.user);
+        console.log(result.user.email);
+        const user = { email: email };
+        axios.post(`${import.meta.env.VITE_url}/jwt`, user).then((data) => {
+          console.log(data.data);
+        });
         navigate(previousLocation);
       })
       .catch((error) => {
