@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 const TotalApplicant = () => {
   const [applicants, setApplicants] = useState([]);
@@ -14,6 +15,28 @@ const TotalApplicant = () => {
     ).then((res) => setApplicants(res.data));
   }, [id.job_id]);
   // console.log(applicants);
+
+  const handleAction = (e, id) => {
+    // console.log(e.target.value, id);
+    const data = {
+      status: e.target.value,
+    };
+
+    fetch(`${import.meta.env.VITE_url}/application/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        if (data.modifiedCount) {
+          Swal.fire("successfully updated!");
+        }
+      });
+  };
 
   return (
     <motion.div
@@ -94,13 +117,17 @@ const TotalApplicant = () => {
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <select className="select select-bordered">
-                      <option value="" disabled>
-                        Select Action
-                      </option>
-                      <option value="hired">Hired</option>
-                      <option value="rejected">Rejected</option>
-                      <option value="under-review">Under Review</option>
+                    <select
+                      onChange={(e) => {
+                        handleAction(e, applicant._id);
+                      }}
+                      defaultValue={applicant.status || "Select Action"}
+                      className="select select-bordered"
+                    >
+                      <option disabled>Select Action</option>
+                      <option>Hired</option>
+                      <option>Rejected</option>
+                      <option>Under Review</option>
                     </select>
                   </motion.div>
                 </td>
