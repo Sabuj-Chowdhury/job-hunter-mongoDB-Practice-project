@@ -41,6 +41,7 @@ async function run() {
       .collection("applications");
 
     // *************auth/jwt (json web token) related api********************
+    // creating the cookie (Http only)
     app.post("/jwt", (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -49,6 +50,17 @@ async function run() {
 
       res
         .cookie("token", token, {
+          httpOnly: true,
+          secure: false, //set it to true in deployment ***********IMPORTANT**************
+        })
+        .send({ success: true });
+    });
+
+    // clear the cookie when logging out
+    app.post("/logout", (req, res) => {
+      //this clears the cookie
+      res
+        .clearCookie("token", {
           httpOnly: true,
           secure: false, //set it to true in deployment ***********IMPORTANT**************
         })
