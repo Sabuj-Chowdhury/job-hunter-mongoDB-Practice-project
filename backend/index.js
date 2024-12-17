@@ -13,7 +13,13 @@ const port = process.env.PORT || 5000;
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+//to send the token from the client side we need to add origin (CORS)
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true, //allows to access from other domains
+  })
+);
 app.use(cookieParser()); // using cookie parser
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.i53p4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;

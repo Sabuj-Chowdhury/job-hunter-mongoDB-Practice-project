@@ -4,7 +4,6 @@ import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
-// import axios from "axios";
 
 const Login = () => {
   const { emailPasswordLogin, createGoogleLogIn } = useContext(AuthContext);

@@ -57,9 +57,13 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser?.email) {
         const user = { email: currentUser.email };
-        axios.post(`${import.meta.env.VITE_url}/jwt`, user).then((res) => {
-          console.log(res.data);
-        });
+        axios
+          .post(`${import.meta.env.VITE_url}/jwt`, user, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
       }
 
       setLoading(false); //later need to put it in the right place
