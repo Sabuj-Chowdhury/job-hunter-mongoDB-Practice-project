@@ -55,6 +55,7 @@ const AuthProvider = ({ children }) => {
 
       console.log("current user is ==>", currentUser?.email);
 
+      //when user logs in
       if (currentUser?.email) {
         const user = { email: currentUser.email };
         axios
@@ -62,7 +63,21 @@ const AuthProvider = ({ children }) => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res.data);
+            console.log("login =>", res.data);
+          });
+      }
+      // when user logs out
+      else {
+        axios
+          .post(
+            `${import.meta.env.VITE_url}/logout`,
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            console.log("logout =>", res.data);
           });
       }
 
