@@ -2,24 +2,31 @@ import { useEffect, useState } from "react";
 import { FaTimes, FaEdit } from "react-icons/fa";
 import useAuth from "../Hooks/useAuth";
 import { motion } from "framer-motion";
-// import axios from "axios";
+import axios from "axios";
 
 const MyApplications = () => {
   const [jobs, setJobs] = useState([]);
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_url}/total-application?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setJobs(data);
-      });
+    // fetch(`${import.meta.env.VITE_url}/total-application?email=${user.email}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setJobs(data);
+    //   });
     // axios
     //   .get(
     //     `${import.meta.env.VITE_url}/total-application?email=${user.email}`,
     //     { withCredentials: true }
     //   )
     //   .then((res) => setJobs(res.data));
+
+    axios
+      .get(
+        `${import.meta.env.VITE_url}/total-application?email=${user.email}`,
+        { withCredentials: true }
+      )
+      .then((res) => setJobs(res.data));
   }, [user.email]);
 
   const handleDelete = (id) => {

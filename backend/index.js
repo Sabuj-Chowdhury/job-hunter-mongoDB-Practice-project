@@ -110,6 +110,8 @@ async function run() {
         applicant_email: email,
       };
 
+      console.log(req.cookies?.token); //to see the cookies sent from client from my applications
+
       const result = await applicantCollection.find(query).toArray();
       // not the best way to aggregate
       for (const application of result) {
