@@ -64,6 +64,7 @@ const AuthProvider = ({ children }) => {
           })
           .then((res) => {
             console.log("login =>", res.data);
+            setLoading(false);
           });
       }
       // when user logs out
@@ -78,10 +79,9 @@ const AuthProvider = ({ children }) => {
           )
           .then((res) => {
             console.log("logout =>", res.data);
+            setLoading(false);
           });
       }
-
-      setLoading(false); //later need to put it in the right place
     });
     return () => {
       unsubscribe();
