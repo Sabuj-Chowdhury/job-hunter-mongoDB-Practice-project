@@ -22,7 +22,7 @@ const PostJob = () => {
     newJob.requirements = newJob.requirements.split(",");
     // console.log(newJob);
     newJob.responsibilities = newJob.responsibilities.split(",");
-    console.log(newJob);
+    // console.log(newJob);
 
     fetch(`${import.meta.env.VITE_url}/post-jobs`, {
       method: "POST",

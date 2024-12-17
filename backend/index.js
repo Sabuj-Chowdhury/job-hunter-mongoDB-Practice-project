@@ -16,7 +16,11 @@ app.use(express.json());
 //to send the token from the client side we need to add origin (CORS)
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://mental-health-tracker-18a8c.web.app",
+      "https://mental-health-tracker-18a8c.firebaseapp.com",
+    ],
     credentials: true, //allows to access from other domains
   })
 );
@@ -64,13 +68,14 @@ async function run() {
     app.post("/jwt", (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "10h",
       });
 
       res
         .cookie("token", token, {
           httpOnly: true,
-          secure: false, //set it to true in deployment ***********IMPORTANT**************
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         })
         .send({ success: true });
     });
@@ -81,7 +86,8 @@ async function run() {
       res
         .clearCookie("token", {
           httpOnly: true,
-          secure: false, //set it to true in deployment ***********IMPORTANT**************
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         })
         .send({ success: true });
     });
@@ -217,9 +223,9 @@ async function run() {
       res.send(result);
     });
 
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
   }
 }
