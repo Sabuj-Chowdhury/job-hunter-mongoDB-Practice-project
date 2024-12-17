@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import AuthContext from "../Context/AuthContext";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -51,8 +52,17 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
-      // console.log("current user is ==>", currentUser);
+
+      console.log("current user is ==>", currentUser?.email);
+
+      if (currentUser?.email) {
+        const user = { email: currentUser.email };
+        axios.post(`${import.meta.env.VITE_url}/jwt`, user).then((res) => {
+          console.log(res.data);
+        });
+      }
+
+      setLoading(false); //later need to put it in the right place
     });
     return () => {
       unsubscribe();
