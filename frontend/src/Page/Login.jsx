@@ -4,7 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
-import axios from "axios";
+// import axios from "axios";
 
 const Login = () => {
   const { emailPasswordLogin, createGoogleLogIn } = useContext(AuthContext);
@@ -36,20 +36,20 @@ const Login = () => {
     emailPasswordLogin(email, password)
       .then((result) => {
         console.log(result.user.email);
-        const user = { email: email };
+        // const user = { email: email };
 
         // after login I can't see any cookies under cookies tab ****//ISSUE
-        axios
-          .post(`${import.meta.env.VITE_url}/jwt`, user, {
-            withCredentials: true,
-          })
-          .then((data) => {
-            console.log(data.data);
-          });
+        // axios
+        //   .post(`${import.meta.env.VITE_url}/jwt`, user, {
+        //     withCredentials: true,
+        //   })
+        //   .then((data) => {
+        //     console.log(data.data);
+        //   });
         navigate(previousLocation);
       })
       .catch((error) => {
-        // console.log(error.message);
+        console.log(error.message);
       });
   };
 
@@ -58,7 +58,9 @@ const Login = () => {
       .then(() => {
         navigate(previousLocation);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

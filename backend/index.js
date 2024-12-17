@@ -6,19 +6,14 @@ const cookieParser = require("cookie-parser"); // to use cookie-parser
 
 const express = require("express");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken"); //to use JWT
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// middlewares
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-  })
-);
-
+app.use(cors());
 app.use(cookieParser()); // using cookie parser
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.i53p4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -40,16 +35,6 @@ async function run() {
       .collection("applications");
 
     // *************auth/jwt (json web token) related api**********
-    app.post("/jwt", async (req, res) => {
-      const user = req.body;
-      const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-          secure: false, //set true for production in http //DEPLOY **********
-        })
-        .send({ success: true });
-    });
 
     // *************GET**************
 
@@ -93,7 +78,6 @@ async function run() {
       const query = {
         applicant_email: email,
       };
-      console.log("cookies : ", req.cookies);
 
       const result = await applicantCollection.find(query).toArray();
       // not the best way to aggregate
@@ -112,7 +96,6 @@ async function run() {
       res.send(result);
     });
 
-    // Can't find the data of who applied for the job (ERROR)
     // Fixed ,the issue was caused because in DB id was in object so it have to use by "job_id.id"
 
     // API for How many people applied for the job post that the (Logged in user created )
