@@ -14,12 +14,6 @@ const MyApplications = () => {
     //   .then((data) => {
     //     setJobs(data);
     //   });
-    // axios
-    //   .get(
-    //     `${import.meta.env.VITE_url}/total-application?email=${user.email}`,
-    //     { withCredentials: true }
-    //   )
-    //   .then((res) => setJobs(res.data));
 
     axios
       .get(
@@ -29,10 +23,12 @@ const MyApplications = () => {
       .then((res) => setJobs(res.data));
   }, [user.email]);
 
+  // will implement later
   const handleDelete = (id) => {
     console.log("Delete job with ID:", id);
   };
 
+  // will implement later
   const handleUpdate = (id) => {
     console.log("Update job with ID:", id);
   };

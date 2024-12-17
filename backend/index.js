@@ -21,6 +21,25 @@ app.use(
   })
 );
 app.use(cookieParser()); // using cookie parser
+// custom middleware
+const verifyToken = (req, res, next) => {
+  const token = req.cookies?.token; //token
+  // console.log("token inside the verify token function =>", token);
+
+  // if no token is found
+  if (!token) {
+    return res.status(401).send({ message: "unauthorized access" });
+  }
+
+  // to verify the token
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "unauthorized access" });
+    }
+    req.user = decoded;
+    next();
+  });
+};
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.i53p4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -104,13 +123,18 @@ async function run() {
     });
 
     // API for total job application data  for which that user which is logged in (by email)
-    app.get("/total-application", async (req, res) => {
+    app.get("/total-application", verifyToken, async (req, res) => {
       const email = req.query.email;
       const query = {
         applicant_email: email,
       };
 
-      console.log(req.cookies?.token); //to see the cookies sent from client from my applications
+      // console.log(req.cookies?.token); //to see the cookies sent from client from my applications
+
+      // making only authorized token holder can access the data (token email != query email)
+      if (req.user.email !== req.query.email) {
+        return res.status(403).send({ message: "Forbidden access" });
+      }
 
       const result = await applicantCollection.find(query).toArray();
       // not the best way to aggregate
