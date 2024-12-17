@@ -35,16 +35,7 @@ const Login = () => {
     emailPasswordLogin(email, password)
       .then((result) => {
         console.log(result.user.email);
-        // const user = { email: email };
 
-        // after login I can't see any cookies under cookies tab ****//ISSUE
-        // axios
-        //   .post(`${import.meta.env.VITE_url}/jwt`, user, {
-        //     withCredentials: true,
-        //   })
-        //   .then((data) => {
-        //     console.log(data.data);
-        //   });
         navigate(previousLocation);
       })
       .catch((error) => {

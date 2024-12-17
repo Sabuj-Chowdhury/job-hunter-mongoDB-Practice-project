@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { FaTimes, FaEdit } from "react-icons/fa";
 import useAuth from "../Hooks/useAuth";
 import { motion } from "framer-motion";
-import axios from "axios";
+// import axios from "axios";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const MyApplications = () => {
   const [jobs, setJobs] = useState([]);
-  const { user } = useAuth();
 
+  const { user } = useAuth();
+  const axiosInstance = useAxiosSecure();
   useEffect(() => {
     // fetch(`${import.meta.env.VITE_url}/total-application?email=${user.email}`)
     //   .then((res) => res.json())
@@ -15,13 +17,17 @@ const MyApplications = () => {
     //     setJobs(data);
     //   });
 
-    axios
-      .get(
-        `${import.meta.env.VITE_url}/total-application?email=${user.email}`,
-        { withCredentials: true }
-      )
+    // axios
+    //   .get(
+    //     `${import.meta.env.VITE_url}/total-application?email=${user.email}`,
+    //     { withCredentials: true }
+    //   )
+    //   .then((res) => setJobs(res.data));
+
+    axiosInstance
+      .get(`/total-application?email=${user.email}`)
       .then((res) => setJobs(res.data));
-  }, [user.email]);
+  }, [axiosInstance, user.email]);
 
   // will implement later
   const handleDelete = (id) => {
